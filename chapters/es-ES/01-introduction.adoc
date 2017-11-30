@@ -1,6 +1,6 @@
-== Capítulo 1: Introducción a Logstash
+== Capítulo 1: Introducción
 
-En este capítulo introduciremos el servicio de Logstash y su integración dentro de la arquitectura de redBorder.
+En este capítulo introduciremos el servicio de Logstash y su integración dentro de la arquitectura de RedBorder.
 
 === RedBorder Vault
 
