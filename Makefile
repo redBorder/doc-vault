@@ -13,7 +13,7 @@ html: $(SOURCES) styles/$(CSS)
 
 .PHONY: pdf
 pdf: $(SOURCES) styles/$(CSS)
-	asciidoctor-pdf $(MAIN) -a i18n=$(LANG) -a img_path=$(PWD)/assets/images --attribute tabsize=4 -o $(OUTDIR)/pdf/$(LANG)_$(BASE).pdf
+	asciidoctor-pdf $(MAIN) -a i18n=$(LANG) -a allow-uri-read -a img_path=$(PWD)/assets/images --attribute tabsize=4 -o $(OUTDIR)/pdf/$(LANG)_$(BASE).pdf
 
 .PHONY: clean
 clean:
