@@ -17,3 +17,4 @@
 
 = RedBorder logstash documentation
 
+include::chapters/{i18n}/01-introduction.adoc[]
