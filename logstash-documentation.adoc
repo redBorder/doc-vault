@@ -3,7 +3,7 @@
 :copyrights: GNU Affero General Public License
 :lang: es
 :docinfo:
-:revnumber: 0.0.1
+:revnumber: 0.0.2
 :keywords: redborder, logstash, logs, rb, vault
 :toc:
 :toc-title: Índice
