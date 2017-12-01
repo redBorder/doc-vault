@@ -1,9 +1,9 @@
 :doctype: book
-:author: redborder
+:author: Redborder
 :copyrights: GNU Affero General Public License
 :lang: es
 :docinfo:
-:revnumber: 0.0.1
+:revnumber: 0.0.2
 :keywords: redborder, logstash, logs, rb, vault
 :toc:
 :toc-title: Índice
@@ -15,6 +15,6 @@
 :table-caption: Tabla
 :stem: latexmath
 
-= RedBorder vault documentation
+= RedBorder Vault documentation
 
 include::chapters/{i18n}/01-introduction.adoc[]
