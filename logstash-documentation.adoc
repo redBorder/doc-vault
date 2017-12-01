@@ -15,6 +15,6 @@
 :table-caption: Tabla
 :stem: latexmath
 
-= RedBorder Vault documentation
+= Redborder Vault documentation
 
 include::chapters/{i18n}/01-introduction.adoc[]
