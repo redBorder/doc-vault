@@ -1,5 +1,5 @@
 :doctype: book
-:author: redborder
+:author: Redborder
 :copyrights: GNU Affero General Public License
 :lang: es
 :docinfo:
@@ -15,6 +15,6 @@
 :table-caption: Tabla
 :stem: latexmath
 
-= RedBorder vault documentation
+= RedBorder Vault documentation
 
 include::chapters/{i18n}/01-introduction.adoc[]
