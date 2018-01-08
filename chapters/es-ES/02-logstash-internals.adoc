@@ -1,0 +1,30 @@
+== Capítulo 2: Arquitectura interna de Vault
+
+En este capítulo explicaremos y analizaremos el funcionamiento interno de redborder Vault.
+
+=== Ruta de datos
+
+Desde que los datos son recolectados hasta que son mostrados a través de la interfaz de usuario, pasa por tres fases para facilitar la recolección, el procesado y visualización de los datos.
+
+==== Colector de logs
+
+En esta primera fase se recolectan los logs de los distintos servicios, esto se hace utilizando la herramienta rsyslog. Una vez obtenidos los logs son clasificados por aplicación y posteriormente enviados a Kafka para su persistencia y posterior procesado.
+
+==== Procesado de datos
+
+En la fase de procesado de datos entra logstash. Gracias a logstash se hace la clasificación de los campos `target`, `status`, `source` y `action` en base a las reglas definidas por los logs, la definición de estos campos se puede encontrar en la tabla inferior. Los ejemplos expuestos son los obtenidos a partir de un servicio web apache:
+
+[cols="^,^,^", options="header"]
+|====
+|*Campo*|*Definición*|*Ejemplo*
+|action|Acción realizada| GET, POST, PUT, DELETE ...
+|target|Objetivo de la acción realizada | https://redborder.com
+|status|Efecto que ha tenido la acción | 200, 404, 503 ...
+|source|Origen de la acción| 24.109.71.77
+|====
+
+Una vez que se han identificado los distintos campos y se ha normalizado la información logstash la envía al entorno de redborder donde pasarán a indexarse.
+
+==== Visualización de datos
+
+Tras el procesado de datos estarán disponibles para su consulta y seguimiento en la web de redborder. 
