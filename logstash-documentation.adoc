@@ -18,4 +18,4 @@
 = RedBorder Vault documentation
 
 include::chapters/{i18n}/01-introduction.adoc[]
-include::chapters/{i18n}/02-logstash-internals.adoc[]
+include::chapters/{i18n}/02-vault-internals.adoc[]
