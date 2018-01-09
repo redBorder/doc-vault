@@ -1,0 +1,52 @@
+== Capítulo 2: Arquitectura interna de Vault
+
+En este capítulo explicaremos y analizaremos el funcionamiento interno de redborder Vault.
+
+=== Ruta de datos
+
+Desde que los datos son recolectados hasta que son mostrados a través de la interfaz de usuario, pasa por tres fases para facilitar la recolección, el procesado y visualización de los datos.
+
+Cada una de estas fases tiene un peso significativo y son críticas para el correcto funcionamiento de redborder Vault.
+
+==== Colector de logs
+
+En esta primera fase se recolectan los logs de los distintos servicios, esto se hace utilizando la herramienta rsyslog. Una vez obtenidos los logs son clasificados por aplicación y posteriormente enviados a Kafka para su persistencia y posterior procesado.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/log-collector-details.png[Detalles del collector de logs]
+
+En la imagen anterior podemos ver en detalle el proceso que sigue el recolector de log. Podemos resumir esta fase en cuatro pasos:
+
+1. El primer paso consiste en la recepción de los logs de los diferentes servicios en rsyslog.
+2. A continuación rsyslog procederá a buscar aquellos logs que haga match con una serie de reglas definidas con los logs más comunes y útiles.
+3. Una vez que se ha buscado esos logs específicos, rsyslog los envía Kafka en formato JSON. Aquellos logs que no hagan match serán desechados.
+4. Por último, al recibir Kafka los logs los almacena en su correspondiente topic para su posterior procesado.
+
+==== Procesado de datos
+
+El procesado de los logs suele ser una tarea bastante compleja, sobretodo por la variedad de logs y los distintos fabricantes y versiones de un mismo servicio. Por ello logstash es una buena opción, ya que el uso de uno de sus plugins más famoso nos permite crear reglas y aplicarlas para la obtención de información relevante.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/data-processing-details.png[Detalles del procesado de datos]
+
+En la imagen anterior podemos ver un poco más en detalle la fase de procesado de datos. Los pasos que se llevan a cabo son los siguientes:
+
+1. El primer paso es alimentar a logstash con los datos obtenidos por la fase de recolección de logs.
+2. En cada JSON tenemos un campo denominado `app_name` que permite discriminar por aplicación y aplicar filtrado.
+3. Gracias al plugin de logstash https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html[Grok], podemos interpretar los logs y obtener la información relevante. Para ello se carga una serie de https://github.com/redBorder/logstash-rules[patrones].
+4. Por último, una vez que se ha obtenido la información necesaria se envía a un nuevo topic de kafka para su análisis en la plataforma de redborder.
+
+En el último paso se hace una clasificación de los campos `target`,  `status`, `source` y `action` en base a las reglas definidas por los logs, la definición de estos campos se puede encontrar en la tabla inferior. Los ejemplos expuestos son los obtenidos a partir de un servicio web de apache:
+
+[cols="^,^,^", options="header"]
+|====
+|*Campo*|*Definición*|*Ejemplo*
+|action|Acción realizada| GET, POST, PUT, DELETE ...
+|target|Objetivo de la acción realizada | https://redborder.com
+|status|Efecto que ha tenido la acción | 200, 404, 503 ...
+|source|Origen de la acción| 24.109.71.77
+|====
+
+==== Visualización de datos
+
+Una vez que se han recolectado y analizado los logs para obtener los campos relevantes, la plataforma de redborder analiza e indexa los datos para su consulta e interpretación.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/vault-view.png[Vista vault]
