@@ -719,6 +719,17 @@ b.conum * { color: inherit !important; }
 </li>
 </ul>
 </li>
+<li><a href="#_capítulo_2_arquitectura_interna_de_vault">Capítulo 2: Arquitectura interna de Vault</a>
+<ul class="sectlevel2">
+<li><a href="#_ruta_de_datos">Ruta de datos</a>
+<ul class="sectlevel3">
+<li><a href="#_colector_de_logs">Colector de logs</a></li>
+<li><a href="#_procesado_de_datos">Procesado de datos</a></li>
+<li><a href="#_visualización_de_datos">Visualización de datos</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -765,6 +776,133 @@ b.conum * { color: inherit !important; }
 </div>
 <div class="paragraph">
 <p>Con una interfaz sencilla y muy intuitiva podrá visualizar todos los eventos de su entorno para asegurarse de que tiene la mejor respuesta en cada uno de los servicios.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_capítulo_2_arquitectura_interna_de_vault">Capítulo 2: Arquitectura interna de Vault</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>En este capítulo explicaremos y analizaremos el funcionamiento interno de redborder Vault.</p>
+</div>
+<div class="sect2">
+<h3 id="_ruta_de_datos">Ruta de datos</h3>
+<div class="paragraph">
+<p>Desde que los datos son recolectados hasta que son mostrados a través de la interfaz de usuario, pasa por tres fases para facilitar la recolección, el procesado y visualización de los datos.</p>
+</div>
+<div class="paragraph">
+<p>Cada una de estas fases tiene un peso significativo y son críticas para el correcto funcionamiento de redborder Vault.</p>
+</div>
+<div class="sect3">
+<h4 id="_colector_de_logs">Colector de logs</h4>
+<div class="paragraph">
+<p>En esta primera fase se recolectan los logs de los distintos servicios, esto se hace utilizando la herramienta rsyslog. Una vez obtenidos los logs son clasificados por aplicación y posteriormente enviados a Kafka para su persistencia y posterior procesado.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/log-collector-details.png" alt="Detalles del collector de logs">
+</div>
+</div>
+<div class="paragraph">
+<p>En la imagen anterior podemos ver en detalle el proceso que sigue el recolector de log. Podemos resumir esta fase en cuatro pasos:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>El primer paso consiste en la recepción de los logs de los diferentes servicios en rsyslog.</p>
+</li>
+<li>
+<p>A continuación rsyslog procederá a buscar aquellos logs que haga match con una serie de reglas definidas con los logs más comunes y útiles.</p>
+</li>
+<li>
+<p>Una vez que se ha buscado esos logs específicos, rsyslog los envía Kafka en formato JSON. Aquellos logs que no hagan match serán desechados.</p>
+</li>
+<li>
+<p>Por último, al recibir Kafka los logs los almacena en su correspondiente topic para su posterior procesado.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_procesado_de_datos">Procesado de datos</h4>
+<div class="paragraph">
+<p>El procesado de los logs suele ser una tarea bastante compleja, sobretodo por la variedad de logs y los distintos fabricantes y versiones de un mismo servicio. Por ello logstash es una buena opción, ya que el uso de uno de sus plugins más famoso nos permite crear reglas y aplicarlas para la obtención de información relevante.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/data-processing-details.png" alt="Detalles del procesado de datos">
+</div>
+</div>
+<div class="paragraph">
+<p>En la imagen anterior podemos ver un poco más en detalle la fase de procesado de datos. Los pasos que se llevan a cabo son los siguientes:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>El primer paso es alimentar a logstash con los datos obtenidos por la fase de recolección de logs.</p>
+</li>
+<li>
+<p>En cada JSON tenemos un campo denominado <code>app_name</code> que permite discriminar por aplicación y aplicar filtrado.</p>
+</li>
+<li>
+<p>Gracias al plugin de logstash <a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html">Grok</a>, podemos interpretar los logs y obtener la información relevante. Para ello se carga una serie de <a href="https://github.com/redBorder/logstash-rules">patrones</a>.</p>
+</li>
+<li>
+<p>Por último, una vez que se ha obtenido la información necesaria se envía a un nuevo topic de kafka para su análisis en la plataforma de redborder.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>En el último paso se hace una clasificación de los campos <code>target</code>,  <code>status</code>, <code>source</code> y <code>action</code> en base a las reglas definidas por los logs, la definición de estos campos se puede encontrar en la tabla inferior. Los ejemplos expuestos son los obtenidos a partir de un servicio web de apache:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top"><strong>Campo</strong></th>
+<th class="tableblock halign-center valign-top"><strong>Definición</strong></th>
+<th class="tableblock halign-center valign-top"><strong>Ejemplo</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">action</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Acción realizada</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">GET, POST, PUT, DELETE &#8230;&#8203;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">target</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Objetivo de la acción realizada</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://redborder.com" class="bare">https://redborder.com</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Efecto que ha tenido la acción</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">200, 404, 503 &#8230;&#8203;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">source</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">Origen de la acción</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">24.109.71.77</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_visualización_de_datos">Visualización de datos</h4>
+<div class="paragraph">
+<p>Una vez que se han recolectado y analizado los logs para obtener los campos relevantes, la plataforma de redborder analiza e indexa los datos para su consulta e interpretación.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/vault-view.png" alt="Vista vault">
+</div>
 </div>
 </div>
 </div>
