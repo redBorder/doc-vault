@@ -47,4 +47,6 @@ En el último paso se hace una clasificación de los campos `target`,  `status`,
 
 ==== Visualización de datos
 
-Tras el procesado de datos estarán disponibles para su consulta y seguimiento en la web de redborder.
+Una vez que se han recolectado y analizado los logs para obtener los campos relevantes, la plataforma de redborder analiza e indexa los datos para su consulta e interpretación.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/vault-view.png[Vista vault]
