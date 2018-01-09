@@ -1,3 +1,4 @@
+
 == Capítulo 2: Arquitectura interna de Vault
 
 En este capítulo explicaremos y analizaremos el funcionamiento interno de redborder Vault.
