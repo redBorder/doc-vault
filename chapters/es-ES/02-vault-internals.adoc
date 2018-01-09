@@ -23,7 +23,18 @@ En la imagen anterior podemos ver en detalle el proceso que sigue el recolector 
 
 ==== Procesado de datos
 
-En la fase de procesado de datos entra logstash. Gracias a logstash se hace la clasificación de los campos `target`, `status`, `source` y `action` en base a las reglas definidas por los logs, la definición de estos campos se puede encontrar en la tabla inferior. Los ejemplos expuestos son los obtenidos a partir de un servicio web apache:
+El procesado de los logs suele ser una tarea bastante compleja, sobretodo por la variedad de logs y los distintos fabricantes y versiones de un mismo servicio. Por ello logstash es una buena opción, ya que el uso de uno de sus plugins más famoso nos permite crear reglas y aplicarlas para la obtención de información relevante.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/data-processing-details.png[Detalles del procesado de datos]
+
+En la imagen anterior podemos ver un poco más en detalle la fase de procesado de datos. Los pasos que se llevan a cabo son los siguientes:
+
+1. El primer paso es alimentar a logstash con los datos obtenidos por la fase de recolección de logs.
+2. En cada JSON tenemos un campo denominado `app_name` que permite discriminar por aplicación y aplicar filtrado.
+3. Gracias al plugin de logstash https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html[Grok], podemos interpretar los logs y obtener la información relevante. Para ello se carga una serie de https://github.com/redBorder/logstash-rules[patrones].
+4. Por último, una vez que se ha obtenido la información necesaria se envía a un nuevo topic de kafka para su análisis en la plataforma de redborder.
+
+En el último paso se hace una clasificación de los campos `target`,  `status`, `source` y `action` en base a las reglas definidas por los logs, la definición de estos campos se puede encontrar en la tabla inferior. Los ejemplos expuestos son los obtenidos a partir de un servicio web de apache:
 
 [cols="^,^,^", options="header"]
 |====
@@ -33,8 +44,6 @@ En la fase de procesado de datos entra logstash. Gracias a logstash se hace la c
 |status|Efecto que ha tenido la acción | 200, 404, 503 ...
 |source|Origen de la acción| 24.109.71.77
 |====
-
-Una vez que se han identificado los distintos campos y se ha normalizado la información logstash la envía al entorno de redborder donde pasarán a indexarse.
 
 ==== Visualización de datos
 
