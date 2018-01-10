@@ -1,0 +1,4 @@
+
+== Capítulo 3: Procesado de datos
+
+En este capítulo analizaremos un poco más a fondo el procesado de los datos. La fase de procesado de datos es importante para la obtención de los campos `action`, `target`, `status` y `source` y obtener información relevante de los logs que se reciban en el sistema.
