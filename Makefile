@@ -1,4 +1,4 @@
-BASE=logstash-documentation
+BASE=vault-documentation
 OUTDIR=docs
 CHAPTERS=chapters
 LANG=es-ES
