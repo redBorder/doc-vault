@@ -2,3 +2,59 @@
 == Capítulo 3: Procesado de datos
 
 En este capítulo analizaremos un poco más a fondo el procesado de los datos. La fase de procesado de datos es importante para la obtención de los campos `action`, `target`, `status` y `source` y obtener información relevante de los logs que se reciban en el sistema.
+
+=== Pipeline
+
+El procesado de eventos de logstash tiene tres fases: inputs -> filters -> outputs. Los inputs generan los eventos, los filtros los modifican y los outputs los envía. Tanto los inputs como los outputs soportan codecs para la codificación y decodificación de datos sin la necesidad de utilizar filtros adicionales.
+
+Actualmente el pipeline de Vault tiene un input y un output. Ambos están conectados a un broker de kafka para leer y escribir de los topics `rb_vault` y `rb_vault_post` respectivamente.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/logstash-vault-pipeline-detail.png[Pipeline de Logstash para Vault]
+
+En la imagen anterior podemos ver un poco más en detalle el pipeline de logstash utilizado para el procesado de los datos de Vault.
+
+Obviando el input y output, cuya funcionalidad es leer y escribir datos a los topics de kafka comentados, podemos observar que hay una serie de filtros que sigue los siguientes pasos:
+
+1. En primer lugar pasa por el filtro `Generic`. Este filtro se encarga de eliminar algunos campos y de generar un hash del mensaje en bruto.
+
+2. En este paso el mensaje pasa por los filtros de forma secuencial, obteniendo la información relevante aplicando para ello una serie de reglas.
+
+==== Filtros de servicios
+
+Los filtros definido para cada uno de los servicios tienen la siguiente estructura:
+
+```
+filter {
+  if "nginx" in [app_name] {
+    grok {
+      patterns_dir => ["/etc/logstash/conf.d/patterns"]
+      match => {
+        "message" => [
+          "%{NGINXACCESS}"
+        ]
+      }
+    }
+    mutate {
+      add_field => {"source" => "%{remote_ip}"}
+      add_field => {"status" => "%{response}"}
+      add_field => {"target" => "%{request}"}
+      add_field => {"action" => "%{request_action}"}
+    }
+  }
+
+}
+```
+
+Como puede observarse la estructura es bastante sencilla. En primer lugar discriminamos el servicio con el campo `app_name` si coincide se aplica los patrones correspondientes.
+
+Además de llevar a cabo este paso se añaden los campos que posteriormente se utilizarán para su análisis y consulta.
+
+Si observamos el conjunto de reglas, podremos ver que tienen la siguiente estructura:
+
+```
+NGINXACCESS %{IPORHOST:remote_ip} - %{DATA:user_name} \[%{HTTPDATE:time}\] "%{WORD:request_action} %{DATA:request} HTTP/%{NUMBER:http_version}" %{NUMBER:response} %{NUMBER:bytes} "%{DATA:referrer}" "%{DATA:agent}"
+```
+
+Se trata pues de una abstracción de las conocidas expresiones regulares. Muchas de estas reglas ya están definidas, sin embargo otras tienen que definirse completamente.
+
+Para más información sobre el plugin Grok y la creación de reglas, puede consultar el siguiente https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html[enlace].
