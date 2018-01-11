@@ -1,0 +1,21 @@
+== Capítulo 4: Módulo Vault
+
+En este capítulo hablaremos sobre el módulo de Vault y su manejo básico.
+
+=== Agregar un sensor Vault
+
+El módulo Vault de la plataforma redborder permite visualizar y analizar los logs recibidos de los diferentes servicios. Gracias a las vistas que ofrece este módulo podremos hacer comparativas, filtrados, búsquedas y análisis.
+
+Lo primero que necesitamos es añadir un sensor de vault, para ello debemos registrarlo. Nos dirigimos al módulo `Sensors` y posteriormente en el menú `Add Sensor` seleccionamos el sensor de tipo `Vault`.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/add-sensor-menu.png[Detalle del menú Sensors]
+
+Veremos que aparece una ventana modal con los siguientes campos:
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/add-vault-sensor.png[Añadir sensor Vault]
+
+- *Name*: Nombre del sensor
+- *IP or Network*: Dirección IP o red a la que pertenece el sensor.
+- *License (Enterprise)*: Licencia que se usará para autorizar el nuevo sensor en la plataforma redborder.
+
+Si se han realizado estas acciones correctamente tendremos registrado nuestro sensor y la plataforma estará lista para la recepción de datos.
