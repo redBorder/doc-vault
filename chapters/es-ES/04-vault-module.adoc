@@ -19,3 +19,13 @@ image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/as
 - *License (Enterprise)*: Licencia que se usará para autorizar el nuevo sensor en la plataforma redborder.
 
 Si se han realizado estas acciones correctamente tendremos registrado nuestro sensor y la plataforma estará lista para la recepción de datos.
+
+=== Vista Vault
+
+En la interfaz de usuario de la plataforma redborder podemos encontrar el módulo Vault, el cual muestra una vista con la que interactuar con la información procesada.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/vault-module-view.png[Vista del módulo Vault]
+
+Esta vista al igual que el resto de vistas de redborder incluye las funciones de filtrado, los distintos tipos de vistas, diferentes ventanas de tiempo, distintos tipos de gráficas, etc...
+
+A modo de síntesis vamos a exponer el uso y la definición de algunos elementos.
