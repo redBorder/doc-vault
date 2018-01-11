@@ -739,6 +739,19 @@ b.conum * { color: inherit !important; }
 </li>
 </ul>
 </li>
+<li><a href="#_capítulo_4_módulo_vault">Capítulo 4: Módulo Vault</a>
+<ul class="sectlevel2">
+<li><a href="#_agregar_un_sensor_vault">Agregar un sensor Vault</a></li>
+<li><a href="#_vista_vault">Vista Vault</a>
+<ul class="sectlevel3">
+<li><a href="#_filtros">Filtros</a></li>
+<li><a href="#_vistas">Vistas</a></li>
+<li><a href="#_gráficas">Gráficas</a></li>
+<li><a href="#_opciones">Opciones</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -962,7 +975,7 @@ b.conum * { color: inherit !important; }
 <pre class="highlight"><code>filter {
   if "nginx" in [app_name] {
     grok {
-      patterns_dir =&gt; ["/etc/logstash/conf.d/patterns"]
+      patterns_dir =&gt; ["/etc/logstash/pipelines/vault/patterns"]
       match =&gt; {
         "message" =&gt; [
           "%{NGINXACCESS}"
@@ -999,6 +1012,147 @@ b.conum * { color: inherit !important; }
 </div>
 <div class="paragraph">
 <p>Para más información sobre el plugin Grok y la creación de reglas, puede consultar el siguiente <a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html">enlace</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_capítulo_4_módulo_vault">Capítulo 4: Módulo Vault</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>En este capítulo hablaremos sobre el módulo de Vault y su manejo básico.</p>
+</div>
+<div class="sect2">
+<h3 id="_agregar_un_sensor_vault">Agregar un sensor Vault</h3>
+<div class="paragraph">
+<p>El módulo Vault de la plataforma redborder permite visualizar y analizar los logs recibidos de los diferentes servicios. Gracias a las vistas que ofrece este módulo podremos hacer comparativas, filtrados, búsquedas y análisis.</p>
+</div>
+<div class="paragraph">
+<p>Lo primero que necesitamos es añadir un sensor de vault, para ello debemos registrarlo. Nos dirigimos al módulo <code>Sensors</code> y posteriormente en el menú <code>Add Sensor</code> seleccionamos el sensor de tipo <code>Vault</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/add-sensor-menu.png" alt="Detalle del menú Sensors">
+</div>
+</div>
+<div class="paragraph">
+<p>Veremos que aparece una ventana modal con los siguientes campos:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/add-vault-sensor.png" alt="Añadir sensor Vault">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Name</strong>: Nombre del sensor</p>
+</li>
+<li>
+<p><strong>IP or Network</strong>: Dirección IP o red a la que pertenece el sensor.</p>
+</li>
+<li>
+<p><strong>License (Enterprise)</strong>: Licencia que se usará para autorizar el nuevo sensor en la plataforma redborder.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Si se han realizado estas acciones correctamente tendremos registrado nuestro sensor y la plataforma estará lista para la recepción de datos.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vista_vault">Vista Vault</h3>
+<div class="paragraph">
+<p>En la interfaz de usuario de la plataforma redborder podemos encontrar el módulo Vault, el cual muestra una vista con la que interactuar con la información procesada.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/vault-module-view.png" alt="Vista del módulo Vault">
+</div>
+</div>
+<div class="paragraph">
+<p>Esta vista al igual que el resto de vistas de redborder incluye las funciones de filtrado, los distintos tipos de vistas, diferentes ventanas de tiempo, distintos tipos de gráficas, etc&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>A modo de síntesis vamos a exponer el uso y la definición de algunos elementos.</p>
+</div>
+<div class="sect3">
+<h4 id="_filtros">Filtros</h4>
+<div class="paragraph">
+<p>Los filtros permiten al usuario aislar una porción de información para conseguir mayor grado de detalle.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_vistas">Vistas</h4>
+<div class="paragraph">
+<p>Las vistas ofrece diferentes opciones de visualización de la información. Podemos seleccionar entre las siguientes vistas:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Tops</strong> : Suma total de datos de diferentes eventos para mostrarlos como uno único.</p>
+</li>
+<li>
+<p><strong>Raw</strong> : Datos de los eventos en bruto.</p>
+</li>
+<li>
+<p><strong>Compare</strong> : Comparación de eventos comprendidos dentro de un periodo determinado.</p>
+</li>
+<li>
+<p><strong>Unique</strong> : Muestra eventos que solo han sucedido una vez.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_gráficas">Gráficas</h4>
+<div class="paragraph">
+<p>Los tipos de gráficas nos permite elegir aquellas formas de visualizar los eventos que mejor se adapte a nuestras necesidades. Son los siguientes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Area</strong></p>
+</li>
+<li>
+<p><strong>Stacked</strong></p>
+</li>
+<li>
+<p><strong>Line</strong></p>
+</li>
+<li>
+<p><strong>Bars</strong></p>
+</li>
+<li>
+<p><strong>SBars</strong></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_opciones">Opciones</h4>
+<div class="paragraph">
+<p>Con las opciones el usuario tiene a su disposición un conjunto de herramientas para la gestión de los datos que se muestran en esta sección. Las opciones son:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Show Total (Mostrar Total)</strong></p>
+</li>
+<li>
+<p><strong>Export to CSV (Exportar a CSV)</strong></p>
+</li>
+<li>
+<p><strong>Time Machine (Máquina del tiempo)</strong></p>
+</li>
+<li>
+<p><strong>Sort Aggregations (Ordenar agregaciones)</strong></p>
+</li>
+<li>
+<p><strong>Save tabs as default (Guardar pestañas como predeterminadas)</strong></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
