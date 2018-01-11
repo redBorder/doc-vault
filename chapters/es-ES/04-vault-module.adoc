@@ -52,3 +52,13 @@ Los tipos de gráficas nos permite elegir aquellas formas de visualizar los even
 - *Line*
 - *Bars*
 - *SBars*
+
+==== Opciones
+
+Con las opciones el usuario tiene a su disposición un conjunto de herramientas para la gestión de los datos que se muestran en esta sección. Las opciones son:
+
+- *Show Total (Mostrar Total)*
+- *Export to CSV (Exportar a CSV)*
+- *Time Machine (Máquina del tiempo)*
+- *Sort Aggregations (Ordenar agregaciones)*
+- *Save tabs as default (Guardar pestañas como predeterminadas)*
