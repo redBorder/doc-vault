@@ -1,0 +1,64 @@
+== Capítulo 4: Módulo Vault
+
+En este capítulo hablaremos sobre el módulo de Vault y su manejo básico.
+
+=== Agregar un sensor Vault
+
+El módulo Vault de la plataforma redborder permite visualizar y analizar los logs recibidos de los diferentes servicios. Gracias a las vistas que ofrece este módulo podremos hacer comparativas, filtrados, búsquedas y análisis.
+
+Lo primero que necesitamos es añadir un sensor de vault, para ello debemos registrarlo. Nos dirigimos al módulo `Sensors` y posteriormente en el menú `Add Sensor` seleccionamos el sensor de tipo `Vault`.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/add-sensor-menu.png[Detalle del menú Sensors]
+
+Veremos que aparece una ventana modal con los siguientes campos:
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/add-vault-sensor.png[Añadir sensor Vault]
+
+- *Name*: Nombre del sensor
+- *IP or Network*: Dirección IP o red a la que pertenece el sensor.
+- *License (Enterprise)*: Licencia que se usará para autorizar el nuevo sensor en la plataforma redborder.
+
+Si se han realizado estas acciones correctamente tendremos registrado nuestro sensor y la plataforma estará lista para la recepción de datos.
+
+=== Vista Vault
+
+En la interfaz de usuario de la plataforma redborder podemos encontrar el módulo Vault, el cual muestra una vista con la que interactuar con la información procesada.
+
+image::https://raw.githubusercontent.com/redBorder/vault-documentation/master/assets/images/vault-module-view.png[Vista del módulo Vault]
+
+Esta vista al igual que el resto de vistas de redborder incluye las funciones de filtrado, los distintos tipos de vistas, diferentes ventanas de tiempo, distintos tipos de gráficas, etc...
+
+A modo de síntesis vamos a exponer el uso y la definición de algunos elementos.
+
+==== Filtros
+
+Los filtros permiten al usuario aislar una porción de información para conseguir mayor grado de detalle.
+
+==== Vistas
+
+Las vistas ofrece diferentes opciones de visualización de la información. Podemos seleccionar entre las siguientes vistas:
+
+- *Tops* : Suma total de datos de diferentes eventos para mostrarlos como uno único.
+- *Raw* : Datos de los eventos en bruto.
+- *Compare* : Comparación de eventos comprendidos dentro de un periodo determinado.
+- *Unique* : Muestra eventos que solo han sucedido una vez.
+
+==== Gráficas
+
+Los tipos de gráficas nos permite elegir aquellas formas de visualizar los eventos que mejor se adapte a nuestras necesidades. Son los siguientes:
+
+- *Area*
+- *Stacked*
+- *Line*
+- *Bars*
+- *SBars*
+
+==== Opciones
+
+Con las opciones el usuario tiene a su disposición un conjunto de herramientas para la gestión de los datos que se muestran en esta sección. Las opciones son:
+
+- *Show Total (Mostrar Total)*
+- *Export to CSV (Exportar a CSV)*
+- *Time Machine (Máquina del tiempo)*
+- *Sort Aggregations (Ordenar agregaciones)*
+- *Save tabs as default (Guardar pestañas como predeterminadas)*
