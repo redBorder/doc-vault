@@ -27,7 +27,7 @@ Los filtros definido para cada uno de los servicios tienen la siguiente estructu
 filter {
   if "nginx" in [app_name] {
     grok {
-      patterns_dir => ["/etc/logstash/conf.d/patterns"]
+      patterns_dir => ["/etc/logstash/pipelines/vault/patterns"]
       match => {
         "message" => [
           "%{NGINXACCESS}"
