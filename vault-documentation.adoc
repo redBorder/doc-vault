@@ -20,3 +20,4 @@
 include::chapters/{i18n}/01-introduction.adoc[]
 include::chapters/{i18n}/02-vault-internals.adoc[]
 include::chapters/{i18n}/03-data-processing.adoc[]
+include::chapters/{i18n}/04-vault-module.adoc[]
